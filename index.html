@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solana Flow - Official Music Portfolio</title>
+    <style>
+        /* --- 基本設定 --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #2BC0E4, #EAECC6); /* カリブの海と砂浜をイメージしたグラデーション */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* --- コンテンツのコンテナ --- */
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            margin: 20px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(5px); /* 背景をぼかす効果 */
+            transition: max-width 0.5s ease;
+        }
+
+        /* --- ヘッダー --- */
+        header h1 {
+            font-size: 2.8em;
+            color: #1a5f7a;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 0;
+        }
+        
+        /* --- メインコンテンツのレイアウト --- */
+        main {
+            margin-top: 20px;
+        }
+
+        .left-column {
+            text-align: center;
+        }
+
+        .right-column {
+            margin-top: 20px;
+        }
+
+        /* --- ジャケット写真 --- */
+        .album-art {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- 音楽プレーヤー --- */
+        .music-player {
+            margin-top: 25px;
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 5px;
+        }
+        
+        /* --- 曲情報 --- */
+        .song-info {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .song-info h2 {
+            color: #1a5f7a;
+            margin-bottom: 5px;
+            font-size: 1.5em;
+        }
+
+        .song-info p {
+            margin: 5px 0;
+        }
+        
+        /* --- プレイリスト --- */
+        .playlist {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .playlist h3 {
+            color: #1a5f7a;
+            border-bottom: 2px solid #2BC0E4;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .playlist ul {
+            list-style: none;
+            padding: 0;
+            max-height: 250px; /* 高さを制限してスクロール可能に */
+            overflow-y: auto;
+        }
+
+        .playlist li {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .playlist li:hover {
+            background-color: rgba(43, 192, 228, 0.1);
+        }
+        
+        .playlist li.now-playing {
+            background-color: #2BC0E4;
+            color: white;
+            font-weight: bold;
+        }
+
+        .playlist .song-title {
+            font-weight: 500;
+        }
+
+        /* --- フッター --- */
+        footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        /* --- レスポンシブ対応：PCなどの幅広スクリーン向け --- */
+        @media (min-width: 992px) {
+            .container {
+                max-width: 900px; /* PC表示の際の最大幅を広げる */
+            }
+
+            main {
+                display: flex;
+                align-items: flex-start;
+                gap: 40px;
+                text-align: left;
+            }
+
+            .left-column {
+                flex: 1;
+            }
+
+            .right-column {
+                flex: 1.5; /* 右側のカラムを少し広く */
+                margin-top: 0;
+            }
+            
+            .song-info {
+                margin-top: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Solana Flow</h1>
+            <p>カリブの風を届けるシンガー</p>
+        </header>
+
+        <main>
+            <div class="left-column">
+                <img src="Coastal Mellow — コースタル メロー (1).png" alt="アルバムジャケット" class="album-art">
+                <div class="song-info">
+                    <h2 id="current-song-title">Under the Sun</h2>
+                    <p><strong>アーティスト:</strong> Solana Flow</p>
+                    <p><strong>ジャンル:</strong> カリビアン / レゲエ</p>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="music-player">
+                    <audio id="main-player" controls>
+                        <source src="Under the Sun.wav" type="audio/wav">
+                        お使いのブラウザはオーディオの再生に対応していません。
+                    </audio>
+                </div>
+    
+                <div class="playlist">
+                    <h3>All Tracks</h3>
+                    <ul id="playlist">
+                        <li class="song-item" data-src="Under the Sun.wav">
+                            <span class="song-title">Under the Sun</span>
+                        </li>
+                        <li class="song-item" data-src="Breeze and You — きみと風の中で.wav">
+                            <span class="song-title">Breeze and You — きみと風の中で</span>
+                        </li>
+                        <li class="song-item" data-src="good vibes only（やさしい時間の中で）.wav">
+                            <span class="song-title">good vibes only（やさしい時間の中で）</span>
+                        </li>
+                        <li class="song-item" data-src="Just Being Here（ただここにいるだけで）.wav">
+                            <span class="song-title">Just Being Here（ただここにいるだけで）</span>
+                        </li>
+                        <li class="song-item" data-src="still here（やわらかい陽だまりに）.wav">
+                            <span class="song-title">still here（やわらかい陽だまりに）</span>
+                        </li>
+                        <li class="song-item" data-src="ブルーグラス サンセット「Blue Glass Sunset」.wav">
+                            <span class="song-title">ブルーグラス サンセット「Blue Glass Sunset」</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Solana Flow. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainPlayer = document.getElementById('main-player');
+            const currentSongTitle = document.getElementById('current-song-title');
+            const playlistElement = document.getElementById('playlist');
+            const songItems = playlistElement.querySelectorAll('.song-item');
+
+            let currentTrackIndex = 0;
+
+            function playSong(index) {
+                if (index >= songItems.length) {
+                    index = 0; 
+                } else if (index < 0) {
+                    index = songItems.length - 1; 
+                }
+                
+                currentTrackIndex = index;
+                const songItem = songItems[index];
+                const src = songItem.getAttribute('data-src');
+                const title = songItem.querySelector('.song-title').textContent;
+
+                mainPlayer.src = src;
+                currentSongTitle.textContent = title;
+                mainPlayer.play();
+
+                songItems.forEach((item, i) => {
+                    item.classList.toggle('now-playing', i === index);
+                });
+            }
+
+            songItems.forEach((item, index) => {
+                item.addEventListener('click', () => playSong(index));
+            });
+
+            mainPlayer.addEventListener('ended', () => {
+                playSong(currentTrackIndex + 1);
+            });
+            
+            if(songItems.length > 0) {
+                songItems[0].classList.add('now-playing');
+            }
+        });
+    </script>
+
+</body>
+</html>
